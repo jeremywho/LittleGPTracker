@@ -25,5 +25,6 @@ private:
     fixed feedback_;
     fixed wet_;
     bool active_;
+    bool renderLogged_;
 };
 #endif

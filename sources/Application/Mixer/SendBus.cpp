@@ -1,4 +1,5 @@
 #include "SendBus.h"
+#include "System/Console/Trace.h"
 #include "System/System/System.h"
 
 SendBus::SendBus() {
@@ -11,6 +12,7 @@ SendBus::SendBus() {
     feedback_ = fl2fp(0.45f);
     wet_ = fl2fp(0.5f);
     active_ = false;
+    renderLogged_ = false;
 }
 
 SendBus::~SendBus() {
@@ -21,6 +23,10 @@ SendBus::~SendBus() {
 void SendBus::Accumulate(fixed *src, int samplecount, fixed level) {
     if (samplecount > SEND_MAX_FRAMES) {
         samplecount = SEND_MAX_FRAMES;
+    }
+    if (!active_) {
+        Trace::Log("SENDBUS", "first accumulate: n=%d level=%d", samplecount,
+                   level);
     }
     fixed *dst = accum_;
     int count = samplecount * 2;
@@ -34,6 +40,10 @@ void SendBus::Accumulate(fixed *src, int samplecount, fixed level) {
 bool SendBus::Render(fixed *buffer, int samplecount) {
     if (!active_) {
         return false;
+    }
+    if (!renderLogged_) {
+        Trace::Log("SENDBUS", "first wet render: n=%d", samplecount);
+        renderLogged_ = true;
     }
     if (samplecount > SEND_MAX_FRAMES) {
         samplecount = SEND_MAX_FRAMES;
