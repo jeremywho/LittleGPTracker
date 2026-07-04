@@ -9,8 +9,8 @@ SendBus::SendBus() {
     SYS_MEMSET(delayLine_, 0, DELAY_LINE_FRAMES * 2 * sizeof(fixed));
     writePos_ = 0;
     delayFrames_ = 13230; // 300ms @ 44.1kHz
-    feedback_ = fl2fp(0.45f);
-    wet_ = fl2fp(0.5f);
+    feedback_ = fl2fp(0.55f);
+    wet_ = fl2fp(0.6f);
     active_ = false;
     renderLogged_ = false;
 }
@@ -55,9 +55,15 @@ bool SendBus::Render(fixed *buffer, int samplecount) {
         int readPos = (writePos_ - delayFrames_) & mask;
         fixed dl = delayLine_[readPos * 2];
         fixed dr = delayLine_[readPos * 2 + 1];
-        // cross-feedback bounces repeats between channels (ping-pong)
-        delayLine_[writePos_ * 2] = *in++ + fp_mul(dr, feedback_);
-        delayLine_[writePos_ * 2 + 1] = *in++ + fp_mul(dl, feedback_);
+        // Asymmetric ping-pong: input feeds the left line only; the right
+        // line is fed purely from the left tap. Repeats alternate ears
+        // even when the source is centered (symmetric feedback collapses
+        // to mono for mono input).
+        fixed inL = *in++;
+        fixed inR = *in++;
+        fixed inMono = (inL >> 1) + (inR >> 1);
+        delayLine_[writePos_ * 2] = inMono + fp_mul(dr, feedback_);
+        delayLine_[writePos_ * 2 + 1] = fp_mul(dl, feedback_);
         *out++ = fp_mul(dl, wet_);
         *out++ = fp_mul(dr, wet_);
         writePos_ = (writePos_ + 1) & mask;
