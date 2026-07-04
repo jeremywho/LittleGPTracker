@@ -20,6 +20,18 @@ SendBus::~SendBus() {
     SYS_FREE(delayLine_);
 }
 
+void SendBus::SetParams(int delayFrames, fixed feedback, fixed wet) {
+    if (delayFrames < 1) {
+        delayFrames = 1;
+    }
+    if (delayFrames > DELAY_LINE_FRAMES - 1) {
+        delayFrames = DELAY_LINE_FRAMES - 1;
+    }
+    delayFrames_ = delayFrames;
+    feedback_ = feedback;
+    wet_ = wet;
+}
+
 void SendBus::Accumulate(fixed *src, int samplecount, fixed level) {
     if (samplecount > SEND_MAX_FRAMES) {
         samplecount = SEND_MAX_FRAMES;

@@ -3,6 +3,7 @@
 #include "Application/Model/Config.h"
 #include "Application/Model/Mixer.h"
 #include "Application/Model/Project.h"
+#include "Application/Player/SyncMaster.h"
 #include "Services/Audio/Audio.h"
 #include "Services/Audio/AudioDriver.h"
 #include "Services/Midi/MidiService.h"
@@ -163,6 +164,18 @@ void MixerService::SetSoftclip(int clip, int gain) {
 }
 
 void MixerService::SetMasterVolume(int attn) { out_->SetMasterVolume(attn); }
+
+void MixerService::SetDelayParams(int sixteenths, int fbPct, int wetPct,
+                                  int sendPct) {
+    float framesPerSixteenth =
+        SyncMaster::GetInstance()->GetPlaySampleCount() * 6.0f;
+    int frames = (int)(sixteenths * framesPerSixteenth);
+    delaySend_.SetParams(frames, fl2fp(fbPct / 100.0f), fl2fp(wetPct / 100.0f));
+    fixed send = fl2fp(sendPct / 100.0f);
+    for (int i = 0; i < SONG_CHANNEL_COUNT; i++) {
+        bus_[i].SetSend(&delaySend_, send);
+    }
+}
 
 int MixerService::GetPlayedBufferPercentage() {
 	return out_->GetPlayedBufferPercentage() ;

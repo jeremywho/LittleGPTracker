@@ -44,6 +44,15 @@ tempoNudge_(0)
     Variable *renderMode =
         new Variable("renderMode", VAR_RENDER, renderModes, MAX_RENDER_MODE, 0);
     this->Insert(renderMode);
+    Variable *delayTime = new Variable("delayTime", VAR_DELAYTIME, 3, 16);
+    this->Insert(delayTime);
+    Variable *delayFeedback =
+        new Variable("delayFeedback", VAR_DELAYFB, 55, 99);
+    this->Insert(delayFeedback);
+    Variable *delayWet = new Variable("delayWet", VAR_DELAYWET, 50, 99);
+    this->Insert(delayWet);
+    Variable *delaySend = new Variable("delaySend", VAR_DELAYSEND, 50, 99);
+    this->Insert(delaySend);
 
 // Reload the midi device list
 
@@ -117,6 +126,30 @@ int Project::GetRenderMode() {
     Variable *v = FindVariable(VAR_RENDER);
     NAssert(v);
 	return v->GetInt();
+}
+
+int Project::GetDelayTime() {
+    Variable *v = FindVariable(VAR_DELAYTIME);
+    NAssert(v);
+    return v->GetInt();
+}
+
+int Project::GetDelayFeedback() {
+    Variable *v = FindVariable(VAR_DELAYFB);
+    NAssert(v);
+    return v->GetInt();
+}
+
+int Project::GetDelayWet() {
+    Variable *v = FindVariable(VAR_DELAYWET);
+    NAssert(v);
+    return v->GetInt();
+}
+
+int Project::GetDelaySend() {
+    Variable *v = FindVariable(VAR_DELAYSEND);
+    NAssert(v);
+    return v->GetInt();
 }
 
 void Project::NudgeTempo(int value) {

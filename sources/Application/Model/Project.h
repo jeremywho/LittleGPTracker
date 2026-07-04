@@ -18,6 +18,10 @@
 #define VAR_PREGAIN   		MAKE_FOURCC('P', 'R', 'G', 'N')
 #define VAR_SCALE 			MAKE_FOURCC('S', 'C', 'A', 'L')
 #define VAR_RENDER MAKE_FOURCC('R', 'N', 'D', 'R')
+#define VAR_DELAYTIME MAKE_FOURCC('D', 'L', 'T', 'M')
+#define VAR_DELAYFB MAKE_FOURCC('D', 'L', 'F', 'B')
+#define VAR_DELAYWET MAKE_FOURCC('D', 'L', 'W', 'T')
+#define VAR_DELAYSEND MAKE_FOURCC('D', 'L', 'S', 'D')
 
 #define PROJECT_NUMBER "1"
 #define PROJECT_RELEASE "6"
@@ -45,6 +49,10 @@ public:
   int GetSoftclipGain();
   int GetPregain();
   int GetRenderMode();
+  int GetDelayTime();
+  int GetDelayFeedback();
+  int GetDelayWet();
+  int GetDelaySend();
   void Trigger();
 
   static const unsigned int MAX_RENDER_MODE = 3;

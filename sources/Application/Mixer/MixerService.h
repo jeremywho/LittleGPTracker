@@ -49,6 +49,7 @@ public:
     void SetPregain(int);
     void SetSoftclip(int, int);
     void SetMasterVolume(int);
+    void SetDelayParams(int sixteenths, int fbPct, int wetPct, int sendPct);
     void SetRenderMode(int);
     bool IsRendering();
     int GetPlayedBufferPercentage() ;

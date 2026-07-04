@@ -8,7 +8,7 @@
 // the wet signal only, and the parent mixer sums it with the dry path.
 
 #define SEND_MAX_FRAMES 4096
-#define DELAY_LINE_FRAMES 32768 // power of two; ~0.74s @ 44.1kHz
+#define DELAY_LINE_FRAMES 131072 // power of two; ~2.97s @ 44.1kHz
 
 class SendBus : public AudioModule {
 public:
@@ -16,6 +16,7 @@ public:
     virtual ~SendBus();
     virtual bool Render(fixed *buffer, int samplecount);
     void Accumulate(fixed *src, int samplecount, fixed level);
+    void SetParams(int delayFrames, fixed feedback, fixed wet);
 
 private:
     fixed *accum_;

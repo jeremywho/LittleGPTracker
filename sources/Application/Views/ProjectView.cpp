@@ -153,6 +153,28 @@ ProjectView::ProjectView(GUIWindow &w,ViewData *data):FieldView(w,data) {
         new UIIntVarField(position, *v, "Scale: %s", 0, scaleCount - 1, 1, 10);
     T_SimpleList<UIField>::Insert(field);
 
+    v = project_->FindVariable(VAR_DELAYTIME);
+    position._y += 2;
+    field = new UIIntVarField(position, *v, "Delay: %d/16", 1, 16, 1, 4);
+    T_SimpleList<UIField>::Insert(field);
+
+    v = project_->FindVariable(VAR_DELAYFB);
+    position._x += 13;
+    field = new UIIntVarField(position, *v, "Fb: %d", 0, 99, 1, 10);
+    T_SimpleList<UIField>::Insert(field);
+    position._x -= 13;
+
+    v = project_->FindVariable(VAR_DELAYWET);
+    position._y += 1;
+    field = new UIIntVarField(position, *v, "Wet: %d", 0, 99, 1, 10);
+    T_SimpleList<UIField>::Insert(field);
+
+    v = project_->FindVariable(VAR_DELAYSEND);
+    position._x += 13;
+    field = new UIIntVarField(position, *v, "Send: %d", 0, 99, 1, 10);
+    T_SimpleList<UIField>::Insert(field);
+    position._x -= 13;
+
     position._y += 2;
     UIActionField *a1 =
         new UIActionField("Compact Sequencer", ACTION_PURGE, position);

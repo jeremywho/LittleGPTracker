@@ -112,6 +112,8 @@ void PlayerMixer::Update(Observable &o,I_ObservableData *d) {
   ms->SetPregain(project_->GetPregain());
   ms->SetSoftclip(project_->GetSoftclip(), project_->GetSoftclipGain());
   ms->SetMasterVolume(project_->GetMasterVolume());
+  ms->SetDelayParams(project_->GetDelayTime(), project_->GetDelayFeedback(),
+                     project_->GetDelayWet(), project_->GetDelaySend());
   clipped_=ms->Clipped();
 } ;
 
