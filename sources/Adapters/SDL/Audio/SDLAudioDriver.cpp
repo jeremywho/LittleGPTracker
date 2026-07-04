@@ -81,6 +81,13 @@ bool SDLAudioDriver::InitDriver() {
 
     Trace::Log("AUDIO", "%s successfully opened with %d samples", bufferName,
                fragSize_ / 4);
+    Trace::Log("AUDIO", "obtained spec: freq=%d channels=%d samples=%d size=%d",
+               returned.freq, returned.channels, returned.samples,
+               returned.size);
+    if (returned.channels != 2) {
+        Trace::Error("Audio device is not stereo (got %d channel(s))\n",
+                     returned.channels);
+    }
 
     // Create mini blank buffer in case of underruns
 
