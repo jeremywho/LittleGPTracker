@@ -26,7 +26,7 @@ TOOLPATH=$(DEVKIT)/usr/bin
 PREFIX		:=	arm-linux-gnueabihf-
 
 CFLAGS	:=	$(DEFINES) $(INCLUDES) $(SDL_CFLAGS) $(OPT_FLAGS) -Wall  
-CXXFLAGS:=	$(CFLAGS) -std=gnu++03 
+CXXFLAGS:=	$(CFLAGS) -std=gnu++17
 LIBS	:=  -lSDL -lSDL_mixer -lpthread $(SDL_LIBS)
 LIBDIRS	:=	$(DEKVIT)/usr/lib
 LIBDIRS	+=	$(DEKVIT)/usr/include
