@@ -35,6 +35,12 @@ bool MixerService::Init() {
 		master_.Insert(bus_[i]);
 	}
 
+	// send FX render after all buses have deposited their taps
+	master_.Insert(delaySend_);
+	for (int i=0;i<SONG_CHANNEL_COUNT;i++) {
+		bus_[i].SetSend(&delaySend_, fl2fp(0.5f));
+	}
+
 	bool result = false;
 	if (out_) {
 		result = out_->Init();

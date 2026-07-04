@@ -67,6 +67,7 @@ private:
   AudioOut *out_;
   MixBus master_;
   MixBus bus_[MAX_BUS_COUNT];
+  SendBus delaySend_;
   MixerServiceRenderMode mode_;
   SDL_mutex *sync_;
   bool isRendering_;
