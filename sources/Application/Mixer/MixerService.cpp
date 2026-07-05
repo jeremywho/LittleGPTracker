@@ -38,9 +38,8 @@ bool MixerService::Init() {
 
 	// send FX render after all buses have deposited their taps
 	master_.Insert(delaySend_);
-	for (int i=0;i<SONG_CHANNEL_COUNT;i++) {
-		bus_[i].SetSend(&delaySend_, fl2fp(0.5f));
-	}
+	master_.Insert(chorusSend_);
+	master_.Insert(reverbSend_);
 
 	bool result = false;
 	if (out_) {
@@ -165,16 +164,17 @@ void MixerService::SetSoftclip(int clip, int gain) {
 
 void MixerService::SetMasterVolume(int attn) { out_->SetMasterVolume(attn); }
 
-void MixerService::SetDelayParams(int sixteenths, int fbPct, int wetPct,
-                                  int sendPct) {
+void MixerService::SetFxParams(int dlySixteenths, int dlyFbPct, int dlyWetPct,
+                               int choWetPct, int rvWetPct, int rvSizePct) {
     float framesPerSixteenth =
         SyncMaster::GetInstance()->GetPlaySampleCount() * 6.0f;
-    int frames = (int)(sixteenths * framesPerSixteenth);
-    delaySend_.SetParams(frames, fl2fp(fbPct / 100.0f), fl2fp(wetPct / 100.0f));
-    fixed send = fl2fp(sendPct / 100.0f);
-    for (int i = 0; i < SONG_CHANNEL_COUNT; i++) {
-        bus_[i].SetSend(&delaySend_, send);
-    }
+    int frames = (int)(dlySixteenths * framesPerSixteenth);
+    delaySend_.SetParams(frames, fl2fp(dlyFbPct / 100.0f),
+                         fl2fp(dlyWetPct / 100.0f));
+    chorusSend_.SetParams(fl2fp(choWetPct / 100.0f));
+    // freeverb room feedback range: 0.7 - 0.98
+    reverbSend_.SetParams(fl2fp(rvWetPct / 100.0f * 1.5f),
+                          fl2fp(0.7f + rvSizePct * 0.0028f));
 }
 
 int MixerService::GetPlayedBufferPercentage() {

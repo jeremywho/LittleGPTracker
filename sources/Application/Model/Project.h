@@ -21,7 +21,9 @@
 #define VAR_DELAYTIME MAKE_FOURCC('D', 'L', 'T', 'M')
 #define VAR_DELAYFB MAKE_FOURCC('D', 'L', 'F', 'B')
 #define VAR_DELAYWET MAKE_FOURCC('D', 'L', 'W', 'T')
-#define VAR_DELAYSEND MAKE_FOURCC('D', 'L', 'S', 'D')
+#define VAR_CHORUSWET MAKE_FOURCC('C', 'H', 'W', 'T')
+#define VAR_REVERBWET MAKE_FOURCC('R', 'V', 'W', 'T')
+#define VAR_REVERBSIZE MAKE_FOURCC('R', 'V', 'S', 'Z')
 
 #define PROJECT_NUMBER "1"
 #define PROJECT_RELEASE "6"
@@ -52,7 +54,9 @@ public:
   int GetDelayTime();
   int GetDelayFeedback();
   int GetDelayWet();
-  int GetDelaySend();
+  int GetChorusWet();
+  int GetReverbWet();
+  int GetReverbSize();
   void Trigger();
 
   static const unsigned int MAX_RENDER_MODE = 3;

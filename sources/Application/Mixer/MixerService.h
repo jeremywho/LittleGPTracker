@@ -12,6 +12,7 @@
 #include "Services/Audio/AudioMixer.h"
 #include "Services/Audio/AudioOut.h"
 #include "MixBus.h"
+#include "SendBus.h"
 
 enum MixerServiceRenderMode {
     MSRM_PLAYBACK,
@@ -49,7 +50,12 @@ public:
     void SetPregain(int);
     void SetSoftclip(int, int);
     void SetMasterVolume(int);
-    void SetDelayParams(int sixteenths, int fbPct, int wetPct, int sendPct);
+    void SetFxParams(int dlySixteenths, int dlyFbPct, int dlyWetPct,
+                     int choWetPct, int rvWetPct, int rvSizePct);
+
+    SendBus *GetDelayBus() { return &delaySend_; }
+    SendBus *GetChorusBus() { return &chorusSend_; }
+    SendBus *GetReverbBus() { return &reverbSend_; }
     void SetRenderMode(int);
     bool IsRendering();
     int GetPlayedBufferPercentage() ;
@@ -68,7 +74,9 @@ private:
   AudioOut *out_;
   MixBus master_;
   MixBus bus_[MAX_BUS_COUNT];
-  SendBus delaySend_;
+  DelayBus delaySend_;
+  ChorusBus chorusSend_;
+  ReverbBus reverbSend_;
   MixerServiceRenderMode mode_;
   SDL_mutex *sync_;
   bool isRendering_;

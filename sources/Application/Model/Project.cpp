@@ -51,8 +51,12 @@ tempoNudge_(0)
     this->Insert(delayFeedback);
     Variable *delayWet = new Variable("delayWet", VAR_DELAYWET, 50, 99);
     this->Insert(delayWet);
-    Variable *delaySend = new Variable("delaySend", VAR_DELAYSEND, 50, 99);
-    this->Insert(delaySend);
+    Variable *chorusWet = new Variable("chorusWet", VAR_CHORUSWET, 50, 99);
+    this->Insert(chorusWet);
+    Variable *reverbWet = new Variable("reverbWet", VAR_REVERBWET, 50, 99);
+    this->Insert(reverbWet);
+    Variable *reverbSize = new Variable("reverbSize", VAR_REVERBSIZE, 50, 99);
+    this->Insert(reverbSize);
 
 // Reload the midi device list
 
@@ -146,8 +150,20 @@ int Project::GetDelayWet() {
     return v->GetInt();
 }
 
-int Project::GetDelaySend() {
-    Variable *v = FindVariable(VAR_DELAYSEND);
+int Project::GetChorusWet() {
+    Variable *v = FindVariable(VAR_CHORUSWET);
+    NAssert(v);
+    return v->GetInt();
+}
+
+int Project::GetReverbWet() {
+    Variable *v = FindVariable(VAR_REVERBWET);
+    NAssert(v);
+    return v->GetInt();
+}
+
+int Project::GetReverbSize() {
+    Variable *v = FindVariable(VAR_REVERBSIZE);
     NAssert(v);
     return v->GetInt();
 }

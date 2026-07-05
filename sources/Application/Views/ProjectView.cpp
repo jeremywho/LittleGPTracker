@@ -162,18 +162,28 @@ ProjectView::ProjectView(GUIWindow &w,ViewData *data):FieldView(w,data) {
     position._x += 13;
     field = new UIIntVarField(position, *v, "Fb: %d", 0, 99, 1, 10);
     T_SimpleList<UIField>::Insert(field);
-    position._x -= 13;
 
     v = project_->FindVariable(VAR_DELAYWET);
-    position._y += 1;
+    position._x += 8;
     field = new UIIntVarField(position, *v, "Wet: %d", 0, 99, 1, 10);
     T_SimpleList<UIField>::Insert(field);
+    position._x -= 21;
 
-    v = project_->FindVariable(VAR_DELAYSEND);
-    position._x += 13;
-    field = new UIIntVarField(position, *v, "Send: %d", 0, 99, 1, 10);
+    v = project_->FindVariable(VAR_CHORUSWET);
+    position._y += 1;
+    field = new UIIntVarField(position, *v, "Chorus: %d", 0, 99, 1, 10);
     T_SimpleList<UIField>::Insert(field);
-    position._x -= 13;
+
+    v = project_->FindVariable(VAR_REVERBWET);
+    position._x += 13;
+    field = new UIIntVarField(position, *v, "Reverb: %d", 0, 99, 1, 10);
+    T_SimpleList<UIField>::Insert(field);
+
+    v = project_->FindVariable(VAR_REVERBSIZE);
+    position._x += 11;
+    field = new UIIntVarField(position, *v, "Size: %d", 0, 99, 1, 10);
+    T_SimpleList<UIField>::Insert(field);
+    position._x -= 24;
 
     position._y += 2;
     UIActionField *a1 =

@@ -49,6 +49,9 @@ enum SampleInstrumentLoopMode {
 #define SIP_PRINTFX MAKE_FOURCC('P', 'R', 'F', 'X')
 #define SIP_IR_PAD MAKE_FOURCC('I', 'R', 'P', 'D')
 #define SIP_IR_WET MAKE_FOURCC('I', 'R', 'W', 'T')
+#define SIP_DELAYSEND MAKE_FOURCC('D', 'S', 'N', 'D')
+#define SIP_CHORUSSEND MAKE_FOURCC('C', 'S', 'N', 'D')
+#define SIP_REVERBSEND MAKE_FOURCC('R', 'S', 'N', 'D')
 
 #define FB_BUFFER_LENGTH 3500 // (in samples)
 

@@ -185,6 +185,27 @@ void InstrumentView::fillSampleParameters() {
 
 	position._x-=16 ;
 
+	position._y+=1 ;
+	sf=new UIStaticField(position,"dly/cho/rev: ") ;
+	T_SimpleList<UIField>::Insert(sf) ;
+
+	position._x+=13 ;
+	v=instrument->FindVariable(SIP_DELAYSEND) ;
+	f1=new UIIntVarField(position,*v,"%2.2X",0,0xFF,1,0x10) ;
+	T_SimpleList<UIField>::Insert(f1) ;
+
+	position._x+=3 ;
+	v=instrument->FindVariable(SIP_CHORUSSEND) ;
+	f1=new UIIntVarField(position,*v,"%2.2X",0,0xFF,1,0x10) ;
+	T_SimpleList<UIField>::Insert(f1) ;
+
+	position._x+=3 ;
+	v=instrument->FindVariable(SIP_REVERBSEND) ;
+	f1=new UIIntVarField(position,*v,"%2.2X",0,0xFF,1,0x10) ;
+	T_SimpleList<UIField>::Insert(f1) ;
+
+	position._x-=19 ;
+
 	position._y+=2;
 	v=instrument->FindVariable(SIP_INTERPOLATION) ;
 	f1=new UIIntVarField(position,*v,"interpolation: %s",0,1,1,1) ;

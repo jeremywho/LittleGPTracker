@@ -3,6 +3,19 @@
 #include "Application/Player/SyncMaster.h"
 #include "Application/Mixer/MixerService.h"
 #include "Application/Model/Mixer.h"
+#include "Application/Instruments/SampleInstrument.h"
+
+static void accumulateSend(I_Instrument *instr, FourCC param, SendBus *bus,
+                           fixed *buffer, int samplecount) {
+    Variable *v = instr->FindVariable(param);
+    if (!v) {
+        return;
+    }
+    int send = v->GetInt();
+    if (send > 0) {
+        bus->Accumulate(buffer, samplecount, fl2fp(send / 255.0f));
+    }
+}
 
 PlayerChannel::PlayerChannel(int index) {             
     index_=index ;
@@ -37,7 +50,14 @@ bool PlayerChannel::Render(fixed *buffer,int samplecount) {
    if (instr_) {
      bool tableSlice=SyncMaster::GetInstance()->TableSlice() ;
      bool status=instr_->Render(index_,buffer,samplecount,tableSlice) ;
-     return ((status)&&(!muted_)) ;
+     bool audible=((status)&&(!muted_)) ;
+     if (audible) {
+        MixerService *ms=MixerService::GetInstance() ;
+        accumulateSend(instr_,SIP_DELAYSEND,ms->GetDelayBus(),buffer,samplecount) ;
+        accumulateSend(instr_,SIP_CHORUSSEND,ms->GetChorusBus(),buffer,samplecount) ;
+        accumulateSend(instr_,SIP_REVERBSEND,ms->GetReverbBus(),buffer,samplecount) ;
+     }
+     return audible ;
    } else {
      return false ;
    }
